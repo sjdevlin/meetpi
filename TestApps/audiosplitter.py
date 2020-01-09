@@ -28,10 +28,10 @@ chunks = split_on_silence (
     # Use the loaded audio.
     song, 
     # Specify that a silent chunk must be at least 2 seconds or 2000 ms long.
-    min_silence_len = 1500,
+    min_silence_len = 2500,
     # Consider a chunk silent if it's quieter than -16 dBFS.
     # (You may want to adjust this parameter.)
-    silence_thresh = -40
+    silence_thresh = -60
 )
 
 # Process each chunk with your parameters
@@ -48,7 +48,7 @@ for i, chunk in enumerate(chunks):
     # Export the audio chunk with new bitrate.
     print("Exporting chunk{0}.mp3.".format(i))
     normalized_chunk.export(
-        ".//"+filename+"_"+length+"_chunk{0}.mp3".format(i),
+        ".//chunks/"+filename+"_"+length+"_chunk{0}.mp3".format(i),
         bitrate = "192k",
         format = "mp3"
     )

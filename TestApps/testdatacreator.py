@@ -3,7 +3,7 @@ import math
 import struct
 import wave
 import os
-
+#
 Threshold = .7 # audio level to start recording
 
 SHORT_NORMALIZE = (1.0/32768.0)
