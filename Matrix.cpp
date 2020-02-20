@@ -1,14 +1,14 @@
-#include <json.h>
+#include <string.h>
 #include <math.h>
 #include <stdbool.h>
 #include <matrix_hal/everloop.h>
 #include <matrix_hal/everloop_image.h>
 #include <matrix_hal/matrixio_bus.h>
 #include <netinet/in.h>
-#include <string.h>
 #include <sys/socket.h>
 #include <array>
 #include <iostream>
+#include <json-c/json.h>
 
 namespace hal = matrix_hal;
 
@@ -107,7 +107,7 @@ void json_parse_array(json_object *jobj, char *key) {
 void json_parse(json_object *jobj) {
   enum json_type type;
   unsigned int count = 0;
-  fade_leds();  // drop LED value by a little each time you read a json for fade effect
+  fade_energy_levels();  // drop LED value by a little each time you read a json for fade effect
   json_object_object_foreach(jobj, key, val) {
     type = json_object_get_type(val);
     switch (type) {
@@ -151,12 +151,12 @@ int main(int argc, char *argv[]) {
 // initialise arrays
 
   for (int i =0; i<LOCATIONS_COUNT;i++) {
-       position_person_number[i]=-1
+       position_person_number[i]=-1;
       }
 
   for (int i =0; i<MAX_PARTICIPANTS;i++) {
        total_talk_time[i]=0;
-      participant_is_talking[i]=false
+    //  participant_is_talking[i]=false
             }
 
   // Everloop Initialization
@@ -229,28 +229,27 @@ int main(int argc, char *argv[]) {
 
     for (int i = 0; i< LOCATIONS_COUNT; i++) {
 
-    if  energy_array[i] > MIN_THRESHOLD {
+    if  (energy_array[i] > MIN_THRESHOLD) {
         // someone is talking
         // if from a posiiton that is already assigned threads_single_open
         // increment the speak time for that person
         if (position_person_number[i]>-1) {
-        total_talk_time[position_person_number[i]]++
-        participant_is_talking[position_person_number[i]] = true
+        total_talk_time[position_person_number[i]]++;
+  //      participant_is_talking[position_person_number[i]] = true
         }
         else
         // else assign that area (+-10 degrees) to a new participant
         // and increment num_participants to reflect new person
         {
-          ++num_participants
           switch (i){
             case 0:
-            position_person_number[39] = num_participants;
+            position_person_number[LOCATIONS_COUNT-1] = num_participants;
             position_person_number[0] = num_participants;
             position_person_number[1] = num_participants;
             break;
-            case 39:
-            position_person_number[38] = num_participants;
-            position_person_number[39] = num_participants;
+            case LOCATIONS_COUNT-1:
+            position_person_number[LOCATIONS_COUNT-2] = num_participants;
+            position_person_number[LOCATIONS_COUNT-1] = num_participants;
             position_person_number[0] = num_participants;
             break;
             default:
@@ -261,6 +260,7 @@ int main(int argc, char *argv[]) {
 
 
           }
+          ++num_participants;
         }
 
       }
@@ -272,12 +272,12 @@ int main(int argc, char *argv[]) {
       // Convert from angle to pots index
       int index_pots = led_angles_in_matrixvoice[i] * LOCATIONS_COUNT / 360;
       // Mapping from pots values to color
-      int color = energy_array[index_pots] * MAX_BRIGHTNESS / MAX_VALUE;
+      int brightness = energy_array[index_pots] * MAX_BRIGHTNESS / MAX_VALUE;
       // Removing colors below the threshold
 
-      image1d.leds[i].red = energy_array[index_pots] * participant_colour[position_person_number[index_pots]].red;
-      image1d.leds[i].green = energy_array[index_pots] * participant_colour[position_person_number[index_pots]].green;
-      image1d.leds[i].blue = energy_array[index_pots] * participant_colour[position_person_number[index_pots]].blue;
+      image1d.leds[i].red = brightness * participant_colour[position_person_number[index_pots]].red;
+      image1d.leds[i].green = brightness * participant_colour[position_person_number[index_pots]].green;
+      image1d.leds[i].blue = brightness * participant_colour[position_person_number[index_pots]].blue;
       image1d.leds[i].white = 0;
     }
     everloop.Write(&image1d);

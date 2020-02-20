@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/matrix.dir/Matrix.o  -o ../bin/matrix -ljson-c -lmatrix_creator_hal 
