@@ -22,9 +22,20 @@ testresultfile = open('/Users/Dev/Documents/MeetPi/testfile.txt','w')
  
 for i in range (1,100):
     angle = random.randint(0,360)
+#   send signal to the stepper
+#   wait until it gets there
     random_file = random.choice(files)
     filedetails = random_file.split("_")
 #    print (filedetails)
+
+
 #    os.system ("afplay " + random_file)
+
+#    start listening
+
+#    when silence detected - then start again ?     
+
+
+
 #    testresultfile.write("Act Angle," + angle + ",Est. Angle," + angle + ",Age," + filedetails[1] + ",Act Sex," + filedetails[0] + ",Est Sex," + filedetails[0] + ",Act Time," + filedetails[2] + ",Est Time," + filedetails[2] ) 
     testresultfile.write("{},{},{},{}\n".format(angle,filedetails[1],filedetails[0],filedetails[2]) )
