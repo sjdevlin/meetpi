@@ -15,7 +15,7 @@ namespace hal = matrix_hal;
 //pots = potential sources
 
 // LOCATIONS_COUNT : Number of locations where sound can come from.
-#define LOCATIONS_COUNT 18
+#define LOCATIONS_COUNT 36
 // MAX_VALUE : max value of energy
 #define MAX_VALUE 200
 // INCREMENT : multipler to amplify change in odas E value
@@ -27,7 +27,7 @@ namespace hal = matrix_hal;
 // MAX_BRIGHTNESS: 0 - 255
 #define MAX_BRIGHTNESS 12
 // MAX_PARTICIPANTS: Max number of people in meeting
-#define MAX_PARTICIPANTS 6
+#define MAX_PARTICIPANTS 9
 
 
 //these variables hold the value from odas of x,y and energy_array
@@ -184,9 +184,7 @@ int main(int argc, char *argv[]) {
   int messageSize;
 
   int c;
-// 9001 is for pots
-// 9000 is for targets
-  unsigned int portNumber = 9000;
+  unsigned int portNumber = 9001;
   const unsigned int nBytes = 10240;
 
   server_id = socket(AF_INET, SOCK_STREAM, 0);
