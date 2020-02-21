@@ -15,15 +15,15 @@ namespace hal = matrix_hal;
 //pots = potential sources
 
 // LOCATIONS_COUNT : Number of locations where sound can come from.
-#define LOCATIONS_COUNT 36
+#define LOCATIONS_COUNT 54
 // MAX_VALUE : max value of energy
 #define MAX_VALUE 200
 // INCREMENT : multipler to amplify change in odas E value
-#define INCREMENT 20
+#define INCREMENT 40
 // DECREMENT : controls delay in the dimming
 #define DECREMENT 1
 // MIN_THRESHOLD: Filters out low energy targets from odas
-#define MIN_THRESHOLD 100
+#define MIN_THRESHOLD 20
 // MAX_BRIGHTNESS: 0 - 255
 #define MAX_BRIGHTNESS 12
 // MAX_PARTICIPANTS: Max number of people in meeting
@@ -32,11 +32,11 @@ namespace hal = matrix_hal;
 
 //these variables hold the value from odas of x,y and energy_array
 double x, y, z, E;
+int tracked_source_id;
 
 int position_person_number[LOCATIONS_COUNT];
 int total_talk_time[MAX_PARTICIPANTS];
 int num_participants = 0;
-//bool participant_is_talking[MAX_PARTICIPANTS];
 int energy_array[LOCATIONS_COUNT];
 
 struct rgb_value {int red; int green; int blue;} ;
@@ -62,7 +62,7 @@ void capture_energy_level_at_location() {
   // Convert angle to index
   int i_angle = angle_xy / 360 * LOCATIONS_COUNT;  // convert degrees to index
   // Set energy for this angle
-  energy_array[i_angle] += INCREMENT * E;
+  energy_array[i_angle] += INCREMENT * E ;
   // Set limit at MAX_VALUE
   energy_array[i_angle] =
       energy_array[i_angle] > MAX_VALUE ? MAX_VALUE : energy_array[i_angle];
@@ -114,7 +114,9 @@ void json_parse(json_object *jobj) {
       case json_type_boolean:
         break;
       case json_type_double:
-        if (!strcmp(key, "x")) {
+        if (!strcmp(key, "id")) {
+          tracked_source_id = json_object_get_double(val);
+        } else if (!strcmp(key, "x")) {
           x = json_object_get_double(val);
         } else if (!strcmp(key, "y")) {
           y = json_object_get_double(val);
@@ -124,10 +126,13 @@ void json_parse(json_object *jobj) {
           E = json_object_get_double(val);
         }
         // assign energy level for each potential source relative to its energy
-        capture_energy_level_at_location();
-        count++;
+        ++count;
+          if (count == 4) {
+//           printf ("count %d   x %f y %f E %f   -> id %d    \n",count,x,y,E,tracked_source_id);
+           capture_energy_level_at_location();}
         break;
       case json_type_int:
+        if (!strcmp(key, "id"))  tracked_source_id = json_object_get_int(val);
         break;
       case json_type_string:
         break;
@@ -184,7 +189,7 @@ int main(int argc, char *argv[]) {
   int messageSize;
 
   int c;
-  unsigned int portNumber = 9001;
+  unsigned int portNumber = 9000;
   const unsigned int nBytes = 10240;
 
   server_id = socket(AF_INET, SOCK_STREAM, 0);
@@ -219,7 +224,7 @@ int main(int argc, char *argv[]) {
   while ((messageSize = recv(connection_id, message, nBytes, 0)) > 0) {
     message[messageSize] = 0x00;
 
-    // printf("message: %s\n\n", message);
+    //printf("message: %s\n\n", message);
     json_object *jobj = json_tokener_parse(message);
     json_parse(jobj);
 
@@ -241,28 +246,19 @@ int main(int argc, char *argv[]) {
         // else assign that area (+-10 degrees) to a new participant
         // and increment num_participants to reflect new person
         {
-          switch (i){
-            case 0:
-            position_person_number[LOCATIONS_COUNT-1] = num_participants;
-            position_person_number[0] = num_participants;
-            position_person_number[1] = num_participants;
-            break;
-            case LOCATIONS_COUNT-1:
-            position_person_number[LOCATIONS_COUNT-2] = num_participants;
-            position_person_number[LOCATIONS_COUNT-1] = num_participants;
-            position_person_number[0] = num_participants;
-            break;
-            default:
-            position_person_number[i-1] = num_participants;
-            position_person_number[i] = num_participants;
-            position_person_number[i+1] = num_participants;
-            break;
 
-
-          }
+          for (int j=-2;j<3;j++) {
+              int k = i+j;
+              if (k<0) k+=LOCATIONS_COUNT;
+              if (k>=LOCATIONS_COUNT) k-=LOCATIONS_COUNT;
+              if (position_person_number[k] == -1) {
+                position_person_number[k] = num_participants;
+                              printf ("surrounding k %d \n", k);}
           ++num_participants;
-        }
+         
 
+        }
+}
       }
     }
 

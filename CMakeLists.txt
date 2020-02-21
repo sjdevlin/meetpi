@@ -32,10 +32,21 @@ include_directories (${JSON_C_INCLUDE_DIR})
 add_executable(matrix 
     ~/meetpi/Matrix.cpp
 )
+
+add_executable(ledpie 
+    ~/meetpi/ledpie.cpp
+)
+
 target_link_libraries(matrix 
+    ${JSON_C_LIBRARIES}
+    ${MATRIX_CREATOR_HAL}
+)
+
+target_link_libraries(ledpie 
     ${JSON_C_LIBRARIES}
     ${MATRIX_CREATOR_HAL}
 )
 
 
 install(TARGETS matrix DESTINATION bin)
+install(TARGETS ledpie DESTINATION bin)
