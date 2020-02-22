@@ -80,6 +80,18 @@ install/local/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -111,18 +123,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -157,6 +157,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named matrix
+
+# Build rule for target.
+matrix: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 matrix
+.PHONY : matrix
+
+# fast build rule for target.
+matrix/fast:
+	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/build
+.PHONY : matrix/fast
+
+#=============================================================================
 # Target rules for targets named ledpie
 
 # Build rule for target.
@@ -170,17 +183,17 @@ ledpie/fast:
 .PHONY : ledpie/fast
 
 #=============================================================================
-# Target rules for targets named matrix
+# Target rules for targets named ledpie_tar
 
 # Build rule for target.
-matrix: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 matrix
-.PHONY : matrix
+ledpie_tar: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ledpie_tar
+.PHONY : ledpie_tar
 
 # fast build rule for target.
-matrix/fast:
-	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/build
-.PHONY : matrix/fast
+ledpie_tar/fast:
+	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/build
+.PHONY : ledpie_tar/fast
 
 # target to build an object file
 Matrix.o:
@@ -212,6 +225,21 @@ ledpie.s:
 	$(MAKE) -f CMakeFiles/ledpie.dir/build.make CMakeFiles/ledpie.dir/ledpie.s
 .PHONY : ledpie.s
 
+# target to build an object file
+ledpie_for_targets.o:
+	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/ledpie_for_targets.o
+.PHONY : ledpie_for_targets.o
+
+# target to preprocess a source file
+ledpie_for_targets.i:
+	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/ledpie_for_targets.i
+.PHONY : ledpie_for_targets.i
+
+# target to generate assembly for a file
+ledpie_for_targets.s:
+	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/ledpie_for_targets.s
+.PHONY : ledpie_for_targets.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -220,18 +248,22 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... install"
+	@echo "... matrix"
 	@echo "... ledpie"
 	@echo "... rebuild_cache"
 	@echo "... list_install_components"
+	@echo "... ledpie_tar"
 	@echo "... edit_cache"
-	@echo "... matrix"
-	@echo "... install"
 	@echo "... Matrix.o"
 	@echo "... Matrix.i"
 	@echo "... Matrix.s"
 	@echo "... ledpie.o"
 	@echo "... ledpie.i"
 	@echo "... ledpie.s"
+	@echo "... ledpie_for_targets.o"
+	@echo "... ledpie_for_targets.i"
+	@echo "... ledpie_for_targets.s"
 .PHONY : help
 
 

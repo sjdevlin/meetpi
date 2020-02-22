@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pi/meetpi/ledpie_for_targets.cpp
+string.h
+-
+math.h
+-
+stdbool.h
+-
+matrix_hal/everloop.h
+-
+matrix_hal/everloop_image.h
+-
+matrix_hal/matrixio_bus.h
+-
+netinet/in.h
+-
+sys/socket.h
+-
+array
+-
+iostream
+-
+json-c/json.h
+-
+

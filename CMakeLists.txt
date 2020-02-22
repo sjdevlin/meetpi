@@ -37,6 +37,11 @@ add_executable(ledpie
     ~/meetpi/ledpie.cpp
 )
 
+add_executable(ledpie_tar 
+    ~/meetpi/ledpie_for_targets.cpp
+)
+
+
 target_link_libraries(matrix 
     ${JSON_C_LIBRARIES}
     ${MATRIX_CREATOR_HAL}
@@ -47,6 +52,12 @@ target_link_libraries(ledpie
     ${MATRIX_CREATOR_HAL}
 )
 
+target_link_libraries(ledpie_tar 
+    ${JSON_C_LIBRARIES}
+    ${MATRIX_CREATOR_HAL}
+)
+
 
 install(TARGETS matrix DESTINATION bin)
 install(TARGETS ledpie DESTINATION bin)
+install(TARGETS ledpie_tar DESTINATION bin)

@@ -17,9 +17,9 @@ namespace hal = matrix_hal;
 // LOCATIONS_COUNT : Number of locations where sound can come from.
 #define LOCATIONS_COUNT 54
 // MAX_VALUE : max value of energy
-#define MAX_VALUE 255
+#define MAX_VALUE 500
 // INCREMENT : multipler to amplify change in odas E value
-#define INCREMENT 10
+#define INCREMENT 40
 // DECREMENT : controls delay in the dimming
 #define DECREMENT 1
 // MIN_THRESHOLD: Filters out low energy targets from odas
@@ -254,10 +254,9 @@ int main(int argc, char *argv[]) {
               if (position_person_number[k] == -1) {
                 position_person_number[k] = num_participants;
                               printf ("surrounding k %d \n", k);}
-          ++num_participants;
-         
-
-        }
+         }
+              ++num_participants;
+     
 }
       }
     }
@@ -270,11 +269,14 @@ int main(int argc, char *argv[]) {
       // Mapping from pots values to color
       int brightness = energy_array[index_pots] * MAX_BRIGHTNESS / MAX_VALUE;
       // Removing colors below the threshold
-
+      if (position_person_number[index_pots] > -1){
       image1d.leds[i].red = brightness * participant_colour[position_person_number[index_pots]].red;
       image1d.leds[i].green = brightness * participant_colour[position_person_number[index_pots]].green;
       image1d.leds[i].blue = brightness * participant_colour[position_person_number[index_pots]].blue;
       image1d.leds[i].white = 0;
+
+      printf ("led %d index %d person %d brightness %d \n", i,index_pots, position_person_number[index_pots],brightness);
+    }
     }
     everloop.Write(&image1d);
   }
