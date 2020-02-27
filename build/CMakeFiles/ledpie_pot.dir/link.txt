@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/ledpie_pot.dir/ledpie_for_pots.o  -o ../bin/ledpie_pot -ljson-c -lmatrix_creator_hal 

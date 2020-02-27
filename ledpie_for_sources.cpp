@@ -12,7 +12,7 @@
 
 namespace hal = matrix_hal;
 
-#define ANGLE_SPREAD 10.0  // Gives 30 degree window for each speaker
+#define ANGLE_SPREAD 25.0  // Gives 30 degree window for each speaker
 // MAX_VALUE : max value of energy
 #define MIN_THRESHOLD 50
 // MAX_BRIGHTNESS: 0 - 20
@@ -154,12 +154,12 @@ void json_parse(json_object *jobj) {
           y = json_object_get_double(val);
         } else if (!strcmp(key, "z")) {
           z = json_object_get_double(val);
-        } else if (!strcmp(key, "activity")) {
+        } else if (!strcmp(key, "E")) {
           E = json_object_get_double(val);
         }
         // assign energy level for each potential source relative to its energy
         ++count;
-          if (count == 4 and tracked_source_id > 0) {
+          if (count == 4 and E > 0.5) {
 //           printf ("count %d   x %f y %f E %f   -> id %d    \n",count,x,y,E,tracked_source_id);
            capture_energy_level_at_location();}
         break;

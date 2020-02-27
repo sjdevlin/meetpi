@@ -65,13 +65,50 @@ CMAKE_SOURCE_DIR = /home/pi/meetpi
 CMAKE_BINARY_DIR = /home/pi/meetpi/build
 
 #=============================================================================
+# Target rules for target CMakeFiles/ledpie_pot.dir
+
+# All Build rule for target.
+CMakeFiles/ledpie_pot.dir/all:
+	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/depend
+	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/meetpi/build/CMakeFiles --progress-num=3,4 "Built target ledpie_pot"
+.PHONY : CMakeFiles/ledpie_pot.dir/all
+
+# Include target in all.
+all: CMakeFiles/ledpie_pot.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/ledpie_pot.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/meetpi/build/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ledpie_pot.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/meetpi/build/CMakeFiles 0
+.PHONY : CMakeFiles/ledpie_pot.dir/rule
+
+# Convenience name for target.
+ledpie_pot: CMakeFiles/ledpie_pot.dir/rule
+
+.PHONY : ledpie_pot
+
+# clean rule for target.
+CMakeFiles/ledpie_pot.dir/clean:
+	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/clean
+.PHONY : CMakeFiles/ledpie_pot.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/ledpie_pot.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/matrix.dir
 
 # All Build rule for target.
 CMakeFiles/matrix.dir/all:
 	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/depend
 	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/meetpi/build/CMakeFiles --progress-num=5,6 "Built target matrix"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/meetpi/build/CMakeFiles --progress-num=7,8 "Built target matrix"
 .PHONY : CMakeFiles/matrix.dir/all
 
 # Include target in all.
@@ -145,7 +182,7 @@ clean: CMakeFiles/ledpie.dir/clean
 CMakeFiles/ledpie_tar.dir/all:
 	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/depend
 	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/meetpi/build/CMakeFiles --progress-num=3,4 "Built target ledpie_tar"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/meetpi/build/CMakeFiles --progress-num=5,6 "Built target ledpie_tar"
 .PHONY : CMakeFiles/ledpie_tar.dir/all
 
 # Include target in all.

@@ -1,5 +1,6 @@
 /home/pi/meetpi/build/CMakeFiles/install/strip.dir
 /home/pi/meetpi/build/CMakeFiles/install/local.dir
+/home/pi/meetpi/build/CMakeFiles/ledpie_pot.dir
 /home/pi/meetpi/build/CMakeFiles/install.dir
 /home/pi/meetpi/build/CMakeFiles/matrix.dir
 /home/pi/meetpi/build/CMakeFiles/ledpie.dir

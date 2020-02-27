@@ -157,6 +157,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named ledpie_pot
+
+# Build rule for target.
+ledpie_pot: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ledpie_pot
+.PHONY : ledpie_pot
+
+# fast build rule for target.
+ledpie_pot/fast:
+	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/build
+.PHONY : ledpie_pot/fast
+
+#=============================================================================
 # Target rules for targets named matrix
 
 # Build rule for target.
@@ -226,6 +239,21 @@ ledpie.s:
 .PHONY : ledpie.s
 
 # target to build an object file
+ledpie_for_pots.o:
+	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/ledpie_for_pots.o
+.PHONY : ledpie_for_pots.o
+
+# target to preprocess a source file
+ledpie_for_pots.i:
+	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/ledpie_for_pots.i
+.PHONY : ledpie_for_pots.i
+
+# target to generate assembly for a file
+ledpie_for_pots.s:
+	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/ledpie_for_pots.s
+.PHONY : ledpie_for_pots.s
+
+# target to build an object file
 ledpie_for_targets.o:
 	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/ledpie_for_targets.o
 .PHONY : ledpie_for_targets.o
@@ -248,6 +276,7 @@ help:
 	@echo "... depend"
 	@echo "... install/strip"
 	@echo "... install/local"
+	@echo "... ledpie_pot"
 	@echo "... install"
 	@echo "... matrix"
 	@echo "... ledpie"
@@ -261,6 +290,9 @@ help:
 	@echo "... ledpie.o"
 	@echo "... ledpie.i"
 	@echo "... ledpie.s"
+	@echo "... ledpie_for_pots.o"
+	@echo "... ledpie_for_pots.i"
+	@echo "... ledpie_for_pots.s"
 	@echo "... ledpie_for_targets.o"
 	@echo "... ledpie_for_targets.i"
 	@echo "... ledpie_for_targets.s"
