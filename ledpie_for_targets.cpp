@@ -12,7 +12,7 @@
 
 namespace hal = matrix_hal;
 
-#define ANGLE_SPREAD 10.0  // Gives 30 degree window for each speaker
+#define ANGLE_SPREAD 15  // Gives 30 degree window for each speaker
 // MAX_VALUE : max value of energy
 #define MIN_THRESHOLD 50
 // MAX_BRIGHTNESS: 0 - 20
@@ -21,17 +21,18 @@ namespace hal = matrix_hal;
 #define MAX_PARTICIPANTS 6
 
 //these variables hold the value from odas of x,y and energy_array
-double x, y, z, E;
+double f, x, y, z, E;
 int tracked_source_id;
 
 struct meeting_member {
   int led_num;
-  double angle;
+  int angle;
   bool talking; 
   bool was_talking; 
   long total_talk_time;
   char sex;
-  int num_turns;};
+  int num_turns;
+  double freq;};
   
   struct meeting_member participant [MAX_PARTICIPANTS];
 
@@ -60,13 +61,14 @@ void capture_energy_level_at_location() {
   int num_matches=0;
   int person_speaking=-1;
   // Convert x,y to angle. TODO: See why x axis from ODAS is inverted
-  double angle_xy = (atan2(y, x) * (180.0 / M_PI)) ;
-  double matched_angle_diff, angle_diff;
+  int angle_xy = (atan2(y, x) * 180.0) / M_PI ;
+//  printf("angle %d\n",angle_xy);
+  int matched_angle_diff, angle_diff;
   //check is angle already recorded
   for (int i=0;i<num_participants;i++) {
   // check how far away it is from a known source
-    angle_diff = participant[i].angle - angle_xy;
-    angle_diff += (angle_diff>180.0) ? -360.0 : (angle_diff<-180.0) ? 360.0 : 0.0;
+    angle_diff =  angle_xy - participant[i].angle;
+    angle_diff += (angle_diff>180) ? -360 : (angle_diff<-180) ? 360 : 0;
     if (abs(angle_diff) < ANGLE_SPREAD) {
       ++num_matches;
       person_speaking = i;
@@ -83,28 +85,28 @@ void capture_energy_level_at_location() {
      participant[num_participants].talking = true;
      participant[num_participants].num_turns = 1;
      participant[num_participants].total_talk_time = 0;
-     printf ("new member %d at %3.2f degrees.  LED number: %d \n", num_participants,angle_xy, participant[num_participants].led_num);
+     printf ("new member %d at %3d degrees.   LED number: %d \n", num_participants,angle_xy, participant[num_participants].led_num);
      if (num_participants<MAX_PARTICIPANTS-1) {
      ++num_participants;}
-     else{
-     printf("error too many members");
-     }
      
     };    
 
    if (num_matches == 1) {
 // add to existing participant
+//     participant[person_speaking].freq += f / participant[person_speaking].total_talk_time;
      participant[person_speaking].talking = true;
      if (!participant[person_speaking].was_talking) {
      ++participant[person_speaking].num_turns;
-     participant[person_speaking].angle += matched_angle_diff / participant[person_speaking].num_turns;
-     printf ("Angle diff = %3.2f.  Person %d is now %3.2f and they talked for %ld\n", matched_angle_diff, person_speaking, participant[person_speaking].angle, participant[person_speaking].total_talk_time);
-     }
+     participant[person_speaking].angle += matched_angle_diff / 2;
+     printf ("Angle diff = %d.  Person %d is now at %d and they talked for %ld \n", matched_angle_diff, person_speaking, participant[person_speaking].angle, participant[person_speaking].total_talk_time);
+         }
      ++participant[person_speaking].total_talk_time;
-    };    
-   if (num_matches > 1) printf ("error overlap of %d people\n", num_matches);
+     if (f > 0.0) participant[person_speaking].freq +=  (f-participant[person_speaking].freq)/participant[person_speaking].total_talk_time;
+     if (participant[person_speaking].total_talk_time % 30 == 0)  printf("freq %3.2f\n",f);
+        
+//   if (num_matches > 1) printf ("error overlap of %d people\n", num_matches);
+    }
 }
-
 
 void json_parse_array(json_object *jobj, char *key) {
   // Forward Declaration
@@ -142,14 +144,19 @@ void json_parse(json_object *jobj) {
   unsigned int count = 0;
   json_object_object_foreach(jobj, key, val) {
     type = json_object_get_type(val);
+//          printf ("json parsing\n");
     switch (type) {
       case json_type_boolean:
         break;
       case json_type_double:
+//        printf ("type double key is : %s\n",key);
         if (!strcmp(key, "id")) {
+          
           tracked_source_id = json_object_get_double(val);
         } else if (!strcmp(key, "x")) {
           x = json_object_get_double(val);
+        } else if (!strcmp(key, "freq")) {
+          f = json_object_get_double(val);
         } else if (!strcmp(key, "y")) {
           y = json_object_get_double(val);
         } else if (!strcmp(key, "z")) {
@@ -159,14 +166,16 @@ void json_parse(json_object *jobj) {
         }
         // assign energy level for each potential source relative to its energy
         ++count;
-          if (count == 4 and tracked_source_id > 0) {
-//           printf ("count %d   x %f y %f E %f   -> id %d    \n",count,x,y,E,tracked_source_id);
+          if (count == 5 and tracked_source_id > 0) {
+            //printf ("count %d   f %f  E %f   -> id %d    \n",count,f,E,tracked_source_id);
            capture_energy_level_at_location();}
         break;
       case json_type_int:
+//        printf ("json int\n");
         if (!strcmp(key, "id"))  tracked_source_id = json_object_get_int(val);
         break;
       case json_type_string:
+//        printf ("json string\n");
         break;
       case json_type_object:
         if (json_object_object_get_ex(jobj, key, &jobj) == false) {
@@ -176,6 +185,8 @@ void json_parse(json_object *jobj) {
         json_parse(jobj);
         break;
       case json_type_array:
+//        printf ("json array\n");
+
         json_parse_array(jobj, key);
         break;
     }
