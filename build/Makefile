@@ -68,6 +68,17 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -79,18 +90,6 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -113,16 +112,17 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -157,116 +157,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named ledpie_pot
+# Target rules for targets named c_test
 
 # Build rule for target.
-ledpie_pot: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ledpie_pot
-.PHONY : ledpie_pot
+c_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 c_test
+.PHONY : c_test
 
 # fast build rule for target.
-ledpie_pot/fast:
-	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/build
-.PHONY : ledpie_pot/fast
-
-#=============================================================================
-# Target rules for targets named matrix
-
-# Build rule for target.
-matrix: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 matrix
-.PHONY : matrix
-
-# fast build rule for target.
-matrix/fast:
-	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/build
-.PHONY : matrix/fast
-
-#=============================================================================
-# Target rules for targets named ledpie
-
-# Build rule for target.
-ledpie: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ledpie
-.PHONY : ledpie
-
-# fast build rule for target.
-ledpie/fast:
-	$(MAKE) -f CMakeFiles/ledpie.dir/build.make CMakeFiles/ledpie.dir/build
-.PHONY : ledpie/fast
-
-#=============================================================================
-# Target rules for targets named ledpie_tar
-
-# Build rule for target.
-ledpie_tar: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ledpie_tar
-.PHONY : ledpie_tar
-
-# fast build rule for target.
-ledpie_tar/fast:
-	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/build
-.PHONY : ledpie_tar/fast
+c_test/fast:
+	$(MAKE) -f CMakeFiles/c_test.dir/build.make CMakeFiles/c_test.dir/build
+.PHONY : c_test/fast
 
 # target to build an object file
-Matrix.o:
-	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/Matrix.o
-.PHONY : Matrix.o
+c_test.o:
+	$(MAKE) -f CMakeFiles/c_test.dir/build.make CMakeFiles/c_test.dir/c_test.o
+.PHONY : c_test.o
 
 # target to preprocess a source file
-Matrix.i:
-	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/Matrix.i
-.PHONY : Matrix.i
+c_test.i:
+	$(MAKE) -f CMakeFiles/c_test.dir/build.make CMakeFiles/c_test.dir/c_test.i
+.PHONY : c_test.i
 
 # target to generate assembly for a file
-Matrix.s:
-	$(MAKE) -f CMakeFiles/matrix.dir/build.make CMakeFiles/matrix.dir/Matrix.s
-.PHONY : Matrix.s
-
-# target to build an object file
-ledpie.o:
-	$(MAKE) -f CMakeFiles/ledpie.dir/build.make CMakeFiles/ledpie.dir/ledpie.o
-.PHONY : ledpie.o
-
-# target to preprocess a source file
-ledpie.i:
-	$(MAKE) -f CMakeFiles/ledpie.dir/build.make CMakeFiles/ledpie.dir/ledpie.i
-.PHONY : ledpie.i
-
-# target to generate assembly for a file
-ledpie.s:
-	$(MAKE) -f CMakeFiles/ledpie.dir/build.make CMakeFiles/ledpie.dir/ledpie.s
-.PHONY : ledpie.s
-
-# target to build an object file
-ledpie_for_pots.o:
-	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/ledpie_for_pots.o
-.PHONY : ledpie_for_pots.o
-
-# target to preprocess a source file
-ledpie_for_pots.i:
-	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/ledpie_for_pots.i
-.PHONY : ledpie_for_pots.i
-
-# target to generate assembly for a file
-ledpie_for_pots.s:
-	$(MAKE) -f CMakeFiles/ledpie_pot.dir/build.make CMakeFiles/ledpie_pot.dir/ledpie_for_pots.s
-.PHONY : ledpie_for_pots.s
-
-# target to build an object file
-ledpie_for_targets.o:
-	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/ledpie_for_targets.o
-.PHONY : ledpie_for_targets.o
-
-# target to preprocess a source file
-ledpie_for_targets.i:
-	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/ledpie_for_targets.i
-.PHONY : ledpie_for_targets.i
-
-# target to generate assembly for a file
-ledpie_for_targets.s:
-	$(MAKE) -f CMakeFiles/ledpie_tar.dir/build.make CMakeFiles/ledpie_tar.dir/ledpie_for_targets.s
-.PHONY : ledpie_for_targets.s
+c_test.s:
+	$(MAKE) -f CMakeFiles/c_test.dir/build.make CMakeFiles/c_test.dir/c_test.s
+.PHONY : c_test.s
 
 # Help Target
 help:
@@ -275,27 +191,15 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
+	@echo "... edit_cache"
+	@echo "... c_test"
 	@echo "... install/local"
-	@echo "... ledpie_pot"
-	@echo "... install"
-	@echo "... matrix"
-	@echo "... ledpie"
 	@echo "... rebuild_cache"
 	@echo "... list_install_components"
-	@echo "... ledpie_tar"
-	@echo "... edit_cache"
-	@echo "... Matrix.o"
-	@echo "... Matrix.i"
-	@echo "... Matrix.s"
-	@echo "... ledpie.o"
-	@echo "... ledpie.i"
-	@echo "... ledpie.s"
-	@echo "... ledpie_for_pots.o"
-	@echo "... ledpie_for_pots.i"
-	@echo "... ledpie_for_pots.s"
-	@echo "... ledpie_for_targets.o"
-	@echo "... ledpie_for_targets.i"
-	@echo "... ledpie_for_targets.s"
+	@echo "... install"
+	@echo "... c_test.o"
+	@echo "... c_test.i"
+	@echo "... c_test.s"
 .PHONY : help
 
 

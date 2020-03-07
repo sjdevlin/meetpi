@@ -1,0 +1,1 @@
+/usr/bin/cc -O3 -DNDEBUG  -rdynamic CMakeFiles/c_test.dir/c_test.o  -o ../bin/c_test -lfood -lmatrix_creator_hal 

@@ -1,10 +1,7 @@
 /home/pi/meetpi/build/CMakeFiles/install/strip.dir
+/home/pi/meetpi/build/CMakeFiles/edit_cache.dir
+/home/pi/meetpi/build/CMakeFiles/c_test.dir
 /home/pi/meetpi/build/CMakeFiles/install/local.dir
-/home/pi/meetpi/build/CMakeFiles/ledpie_pot.dir
-/home/pi/meetpi/build/CMakeFiles/install.dir
-/home/pi/meetpi/build/CMakeFiles/matrix.dir
-/home/pi/meetpi/build/CMakeFiles/ledpie.dir
 /home/pi/meetpi/build/CMakeFiles/rebuild_cache.dir
 /home/pi/meetpi/build/CMakeFiles/list_install_components.dir
-/home/pi/meetpi/build/CMakeFiles/ledpie_tar.dir
-/home/pi/meetpi/build/CMakeFiles/edit_cache.dir
+/home/pi/meetpi/build/CMakeFiles/install.dir

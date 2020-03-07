@@ -219,6 +219,9 @@ LIBRARY_OUTPUT_PATH:PATH=
 //Path to a library.
 MATRIX_CREATOR_HAL:FILEPATH=/usr/lib/libmatrix_creator_hal.so
 
+//Path to a library.
+STEPHEN_LIB:FILEPATH=/usr/lib/libfood.so
+
 //Value Computed by CMake
 meetpi_BINARY_DIR:STATIC=/home/pi/meetpi/build
 
